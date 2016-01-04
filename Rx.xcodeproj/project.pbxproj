@@ -1123,6 +1123,11 @@
 		D2FC15B31BCB95E5007361FF /* SkipWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B6D251BC8504A00BCE0AB /* SkipWhile.swift */; };
 		D2FC15B41BCB95E7007361FF /* SkipWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B6D251BC8504A00BCE0AB /* SkipWhile.swift */; };
 		D2FC15B51BCB95E8007361FF /* SkipWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B6D251BC8504A00BCE0AB /* SkipWhile.swift */; };
+		E3017FAF1EC3A99983009237 /* RxNSOutlineViewDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305391CBA324B9D771867DD /* RxNSOutlineViewDataSourceType.swift */; };
+		E3039F143505A62DB8D60860 /* RxNSOutlineViewReactiveArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E303D64ED17AC0048A0C508C /* RxNSOutlineViewReactiveArrayDataSource.swift */; };
+		E3099DE978E140FB579A3FF9 /* RxNSOutlineViewDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30908C43112DC5A12A540BA /* RxNSOutlineViewDelegateProxy.swift */; };
+		E30D5DDDE4ED46707E380B70 /* NSOutlineView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30DF79DE1C612241EC0F908 /* NSOutlineView+Rx.swift */; };
+		E30EE409103292777D4E7AFD /* RxNSOutlineViewDataSourceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3036904B5D94C80F96842B8 /* RxNSOutlineViewDataSourceProxy.swift */; };
 		F31F35B01BB4FED800961002 /* UIStepper+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31F35AF1BB4FED800961002 /* UIStepper+Rx.swift */; };
 /* End PBXBuildFile section */
 
@@ -1676,6 +1681,11 @@
 		D285BAC31BC0231000B3F602 /* SkipUntil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkipUntil.swift; sourceTree = "<group>"; };
 		D2EA280C1BB9B5A200880ED3 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2EBEB811BB9B99D003A27DC /* RxBlocking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBlocking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3036904B5D94C80F96842B8 /* RxNSOutlineViewDataSourceProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSOutlineViewDataSourceProxy.swift; sourceTree = "<group>"; };
+		E303D64ED17AC0048A0C508C /* RxNSOutlineViewReactiveArrayDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSOutlineViewReactiveArrayDataSource.swift; sourceTree = "<group>"; };
+		E305391CBA324B9D771867DD /* RxNSOutlineViewDataSourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSOutlineViewDataSourceType.swift; sourceTree = "<group>"; };
+		E30908C43112DC5A12A540BA /* RxNSOutlineViewDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSOutlineViewDelegateProxy.swift; sourceTree = "<group>"; };
+		E30DF79DE1C612241EC0F908 /* NSOutlineView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSOutlineView+Rx.swift"; sourceTree = "<group>"; };
 		F31F35AF1BB4FED800961002 /* UIStepper+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStepper+Rx.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2119,6 +2129,10 @@
 				C8093EC91B8A732E0088E94D /* NSSlider+Rx.swift */,
 				C8093ECA1B8A732E0088E94D /* NSTextField+Rx.swift */,
 				C8BCD3F11C14B62B005F1280 /* NSView+Rx.swift */,
+				E30347E738E893686EB456D4 /* DataSources */,
+				E30C90732BDD4784BD71B563 /* Protocols */,
+				E30EB1E4C8BA6AA0811C1B6D /* Proxies */,
+				E30DF79DE1C612241EC0F908 /* NSOutlineView+Rx.swift */,
 			);
 			path = OSX;
 			sourceTree = "<group>";
@@ -2485,6 +2499,31 @@
 				C807F3611C2ACED300017910 /* TestSchedulerVirtualTimeConverter.swift */,
 			);
 			path = Schedulers;
+			sourceTree = "<group>";
+		};
+		E30347E738E893686EB456D4 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				E303D64ED17AC0048A0C508C /* RxNSOutlineViewReactiveArrayDataSource.swift */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		E30C90732BDD4784BD71B563 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E305391CBA324B9D771867DD /* RxNSOutlineViewDataSourceType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E30EB1E4C8BA6AA0811C1B6D /* Proxies */ = {
+			isa = PBXGroup;
+			children = (
+				E30908C43112DC5A12A540BA /* RxNSOutlineViewDelegateProxy.swift */,
+				E3036904B5D94C80F96842B8 /* RxNSOutlineViewDataSourceProxy.swift */,
+			);
+			path = Proxies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3359,6 +3398,11 @@
 				C8D132451C42D15E00B59FFF /* SectionedViewDataSourceType.swift in Sources */,
 				C8093EE81B8A732E0088E94D /* ControlTarget.swift in Sources */,
 				C80D33901B91EF9E0014629D /* Observable+Bind.swift in Sources */,
+				E3039F143505A62DB8D60860 /* RxNSOutlineViewReactiveArrayDataSource.swift in Sources */,
+				E3017FAF1EC3A99983009237 /* RxNSOutlineViewDataSourceType.swift in Sources */,
+				E3099DE978E140FB579A3FF9 /* RxNSOutlineViewDelegateProxy.swift in Sources */,
+				E30EE409103292777D4E7AFD /* RxNSOutlineViewDataSourceProxy.swift in Sources */,
+				E30D5DDDE4ED46707E380B70 /* NSOutlineView+Rx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

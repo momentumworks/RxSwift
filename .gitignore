@@ -35,6 +35,8 @@ timeline.xctimeline
 
 Carthage/Build
 
+# AppCode
+.idea/
 
 # Various
 
