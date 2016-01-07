@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3163946A1C3D71A4006DE29E /* RxNSTableViewDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316394671C3D6EBA006DE29E /* RxNSTableViewDelegateProxy.swift */; };
+		3163946B1C3D71B0006DE29E /* RxNSTableViewDataSourceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316394651C3D6EAB006DE29E /* RxNSTableViewDataSourceProxy.swift */; };
+		3163946C1C3D71D3006DE29E /* NSTableView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316394631C3D6D2E006DE29E /* NSTableView+Rx.swift */; };
+		3163946F1C3D7C0B006DE29E /* RxNSTableViewReactiveArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3163946D1C3D7A06006DE29E /* RxNSTableViewReactiveArrayDataSource.swift */; };
+		316394711C3E69C6006DE29E /* RxNSTableViewDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316394701C3E69C6006DE29E /* RxNSTableViewDataSourceType.swift */; };
 		79E9DE891C3417FD009970AF /* DispatchQueueSchedulerQOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E9DE881C3417FD009970AF /* DispatchQueueSchedulerQOS.swift */; };
 		79E9DE8A1C3417FD009970AF /* DispatchQueueSchedulerQOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E9DE881C3417FD009970AF /* DispatchQueueSchedulerQOS.swift */; };
 		79E9DE8B1C3417FD009970AF /* DispatchQueueSchedulerQOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E9DE881C3417FD009970AF /* DispatchQueueSchedulerQOS.swift */; };
@@ -1331,6 +1336,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		316394631C3D6D2E006DE29E /* NSTableView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTableView+Rx.swift"; sourceTree = "<group>"; };
+		316394651C3D6EAB006DE29E /* RxNSTableViewDataSourceProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSTableViewDataSourceProxy.swift; sourceTree = "<group>"; };
+		316394671C3D6EBA006DE29E /* RxNSTableViewDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSTableViewDelegateProxy.swift; sourceTree = "<group>"; };
+		3163946D1C3D7A06006DE29E /* RxNSTableViewReactiveArrayDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSTableViewReactiveArrayDataSource.swift; sourceTree = "<group>"; };
+		316394701C3E69C6006DE29E /* RxNSTableViewDataSourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxNSTableViewDataSourceType.swift; sourceTree = "<group>"; };
 		79E9DE881C3417FD009970AF /* DispatchQueueSchedulerQOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueSchedulerQOS.swift; sourceTree = "<group>"; };
 		7EDBAEAB1C89B1A5006CBE67 /* UITabBarItem+RxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarItem+RxTests.swift"; sourceTree = "<group>"; };
 		7EDBAEB71C89B9B7006CBE67 /* UITabBarItem+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarItem+Rx.swift"; sourceTree = "<group>"; };
@@ -2133,6 +2143,7 @@
 				E30C90732BDD4784BD71B563 /* Protocols */,
 				E30EB1E4C8BA6AA0811C1B6D /* Proxies */,
 				E30DF79DE1C612241EC0F908 /* NSOutlineView+Rx.swift */,
+				316394631C3D6D2E006DE29E /* NSTableView+Rx.swift */,
 			);
 			path = OSX;
 			sourceTree = "<group>";
@@ -2505,6 +2516,7 @@
 			isa = PBXGroup;
 			children = (
 				E303D64ED17AC0048A0C508C /* RxNSOutlineViewReactiveArrayDataSource.swift */,
+				3163946D1C3D7A06006DE29E /* RxNSTableViewReactiveArrayDataSource.swift */,
 			);
 			path = DataSources;
 			sourceTree = "<group>";
@@ -2513,6 +2525,7 @@
 			isa = PBXGroup;
 			children = (
 				E305391CBA324B9D771867DD /* RxNSOutlineViewDataSourceType.swift */,
+				316394701C3E69C6006DE29E /* RxNSTableViewDataSourceType.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2520,8 +2533,10 @@
 		E30EB1E4C8BA6AA0811C1B6D /* Proxies */ = {
 			isa = PBXGroup;
 			children = (
-				E30908C43112DC5A12A540BA /* RxNSOutlineViewDelegateProxy.swift */,
 				E3036904B5D94C80F96842B8 /* RxNSOutlineViewDataSourceProxy.swift */,
+				E30908C43112DC5A12A540BA /* RxNSOutlineViewDelegateProxy.swift */,
+				316394651C3D6EAB006DE29E /* RxNSTableViewDataSourceProxy.swift */,
+				316394671C3D6EBA006DE29E /* RxNSTableViewDelegateProxy.swift */,
 			);
 			path = Proxies;
 			sourceTree = "<group>";
@@ -3372,6 +3387,7 @@
 				C80D339B1B922FB00014629D /* ControlProperty.swift in Sources */,
 				C8BCD3F51C14B6D1005F1280 /* NSLayoutConstraint+Rx.swift in Sources */,
 				C8093EF01B8A732E0088E94D /* KVOObserver.swift in Sources */,
+				3163946F1C3D7C0B006DE29E /* RxNSTableViewReactiveArrayDataSource.swift in Sources */,
 				C8093EEE1B8A732E0088E94D /* KVOObservable.swift in Sources */,
 				C8F6A1461BF0B9B2007DF367 /* NSObject+Rx+RawRepresentable.swift in Sources */,
 				C8093EE01B8A732E0088E94D /* CLLocationManager+Rx.swift in Sources */,
@@ -3381,8 +3397,10 @@
 				C8093F461B8A732E0088E94D /* NSButton+Rx.swift in Sources */,
 				C80DDEA01BCE69BA006A1832 /* Driver+Subscription.swift in Sources */,
 				C8093ED61B8A732E0088E94D /* _RXDelegateProxy.m in Sources */,
+				316394711C3E69C6006DE29E /* RxNSTableViewDataSourceType.swift in Sources */,
 				C8093EF61B8A732E0088E94D /* NSObject+Rx.swift in Sources */,
 				C80DDE981BCE69BA006A1832 /* ControlProperty+Driver.swift in Sources */,
+				3163946A1C3D71A4006DE29E /* RxNSTableViewDelegateProxy.swift in Sources */,
 				C8C4B4AA1C17722400828BD5 /* _RXObjCRuntime.m in Sources */,
 				C80DDE941BCE69BA006A1832 /* ControlEvent+Driver.swift in Sources */,
 				C80DDEB21BCE8CA3006A1832 /* Driver+Operators+arity.swift in Sources */,
@@ -3400,8 +3418,10 @@
 				C80D33901B91EF9E0014629D /* Observable+Bind.swift in Sources */,
 				E3039F143505A62DB8D60860 /* RxNSOutlineViewReactiveArrayDataSource.swift in Sources */,
 				E3017FAF1EC3A99983009237 /* RxNSOutlineViewDataSourceType.swift in Sources */,
+				3163946B1C3D71B0006DE29E /* RxNSTableViewDataSourceProxy.swift in Sources */,
 				E3099DE978E140FB579A3FF9 /* RxNSOutlineViewDelegateProxy.swift in Sources */,
 				E30EE409103292777D4E7AFD /* RxNSOutlineViewDataSourceProxy.swift in Sources */,
+				3163946C1C3D71D3006DE29E /* NSTableView+Rx.swift in Sources */,
 				E30D5DDDE4ED46707E380B70 /* NSOutlineView+Rx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

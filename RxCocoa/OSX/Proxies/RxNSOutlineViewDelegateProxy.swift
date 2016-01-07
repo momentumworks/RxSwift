@@ -33,7 +33,7 @@ public class RxNSOutlineViewDelegateProxy : DelegateProxy
     public override class func createProxyForObject(object: AnyObject) -> AnyObject {
         let outlineView = (object as! NSOutlineView)
 
-        return castOrFatalError(outlineView.rx_createDelegateProxy())
+        return castOrFatalError(outlineView.rx_createOutlineViewDelegateProxy())
     }
 
     /**

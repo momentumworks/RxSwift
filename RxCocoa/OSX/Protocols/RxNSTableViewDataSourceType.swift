@@ -1,8 +1,8 @@
 //
-//  RxNSOutlineViewDataSourceType.swift
-//  RxCocoa
+//  RxNSTableViewDataSourceType.swift
+//  Rx
 //
-//  Created by Rheese Burgess on 17/12/2015.
+//  Created by Rheese Burgess on 07/01/2016.
 //
 
 import Foundation
@@ -14,18 +14,18 @@ import Cocoa
 /**
  Marks data source as `NSOutlineView` reactive data source enabling it to be used with one of the `bindTo` methods.
  */
-public protocol RxNSOutlineViewDataSourceType {
-
+public protocol RxNSTableViewDataSourceType {
+    
     /**
      Type of elements that can be bound to outline view.
      */
     typealias Element
-
+    
     /**
      New observable sequence event observed.
-
+     
      - parameter outlineView: Bound outline view.
      - parameter observedEvent: Event
      */
-    func outlineView(outlineView: NSOutlineView, observedEvent: Event<Element>) -> Void
+    func tableView(tableView: NSTableView, observedEvent: Event<Element>) -> Void
 }

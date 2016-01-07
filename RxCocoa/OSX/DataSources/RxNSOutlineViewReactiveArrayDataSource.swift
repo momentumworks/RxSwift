@@ -43,7 +43,7 @@ class _RxNSOutlineViewReactiveArrayDataSource: NSObject, NSOutlineViewDataSource
 }
 
 class RxNSOutlineViewReactiveArrayDataSourceSequenceWrapper<S: SequenceType where S.Generator.Element : NSObject>
-        : RxNSOutlineViewReactiveArrayDataSource<S.Generator.Element>, RxTableViewDataSourceType {
+        : RxNSOutlineViewReactiveArrayDataSource<S.Generator.Element>, RxNSOutlineViewDataSourceType {
 
     typealias Element = S
 

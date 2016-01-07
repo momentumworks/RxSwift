@@ -26,7 +26,7 @@ extension NSOutlineView {
                     -> Disposable {
         let dataSource = RxNSOutlineViewReactiveArrayDataSourceSequenceWrapper<S>(childrenFactory: childrenFactory)
 
-        return self.rx_itemsWithDataSource(dataSource)(source: source)
+        return self.rx_itemsWithOutlineViewDataSource(dataSource)(source: source)
     }
 
     /**
@@ -36,7 +36,7 @@ extension NSOutlineView {
     - parameter source: Observable sequence of items.
     - returns: Disposable object that can be used to unbind.
     */
-    public func rx_itemsWithDataSource<DataSource: protocol<RxTableViewDataSourceType, NSOutlineViewDataSource>, S: SequenceType, O: ObservableType where DataSource.Element == S, O.E == S>
+    public func rx_itemsWithOutlineViewDataSource<DataSource: protocol<RxNSOutlineViewDataSourceType, NSOutlineViewDataSource>, S: SequenceType, O: ObservableType where DataSource.Element == S, O.E == S>
             (dataSource: DataSource)
             (source: O)
                     -> Disposable  {
@@ -53,7 +53,7 @@ extension NSOutlineView {
 
     For more information take a look at `DelegateProxyType` protocol documentation.
     */
-    public var rx_delegate: DelegateProxy {
+    public override var rx_delegate: DelegateProxy {
         return proxyForObject(RxNSOutlineViewDelegateProxy.self, self)
     }
 
@@ -62,7 +62,7 @@ extension NSOutlineView {
 
      - returns: Instance of delegate proxy that wraps `delegate`.
      */
-    public func rx_createDelegateProxy() -> RxNSOutlineViewDelegateProxy {
+    public func rx_createOutlineViewDelegateProxy() -> RxNSOutlineViewDelegateProxy {
         return RxNSOutlineViewDelegateProxy(parentObject: self)
     }
 
@@ -71,7 +71,7 @@ extension NSOutlineView {
 
      - returns: Instance of delegate proxy that wraps `dataSource`.
      */
-    public func rx_createDataSourceProxy() -> RxNSOutlineViewDataSourceProxy {
+    public func rx_createOutlineViewDataSourceProxy() -> RxNSOutlineViewDataSourceProxy {
         return RxNSOutlineViewDataSourceProxy(parentObject: self)
     }
 
@@ -80,7 +80,7 @@ extension NSOutlineView {
 
      For more information take a look at `DelegateProxyType` protocol documentation.
      */
-    public var rx_dataSource: DelegateProxy {
+    public override var rx_dataSource: DelegateProxy {
         return proxyForObject(RxNSOutlineViewDataSourceProxy.self, self)
     }
 

@@ -13,9 +13,13 @@ import Cocoa
 
 let outlineViewDataSourceNotSet = OutlineViewDataSourceNotSet()
 
-class OutlineViewDataSourceNotSet
-        : NSObject
-                , NSOutlineViewDataSource {
+class OutlineViewDataSourceNotSet : NSObject
+                                  , NSOutlineViewDataSource {
+
+    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+        // This is sometimes called before the datasource is set, as described in the documentation, so we return 0
+        return 0
+    }
 
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         rxAbstractMethodWithMessage(dataSourceNotSet)
@@ -25,20 +29,14 @@ class OutlineViewDataSourceNotSet
         rxAbstractMethodWithMessage(dataSourceNotSet)
     }
 
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
-        // For some reason this function is called when initially setting the datasource on the NSOutlineView, so we need to return a default value
-        return 0
-    }
-
     func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
         rxAbstractMethodWithMessage(dataSourceNotSet)
     }
 }
 
-public class RxNSOutlineViewDataSourceProxy
-        : DelegateProxy
-                , NSOutlineViewDataSource
-                , DelegateProxyType {
+public class RxNSOutlineViewDataSourceProxy : DelegateProxy
+                                            , NSOutlineViewDataSource
+                                            , DelegateProxyType {
 
     /**
      Typed parent object.
@@ -95,7 +93,7 @@ public class RxNSOutlineViewDataSourceProxy
     public override class func createProxyForObject(object: AnyObject) -> AnyObject {
         let outlineView = (object as! NSOutlineView)
 
-        return castOrFatalError(outlineView.rx_createDataSourceProxy())
+        return castOrFatalError(outlineView.rx_createOutlineViewDataSourceProxy())
     }
 
     /**
