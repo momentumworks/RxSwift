@@ -98,8 +98,11 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
     // reactive
 
     func outlineView(outlineView: NSOutlineView, observedElements: [Element]) {
-        self.itemModels = observedElements
+        let oldElements = self.itemModels ?? []
 
-        outlineView.reloadData()
+        if (oldElements != observedElements) {
+            self.itemModels = observedElements
+            outlineView.reloadData()
+        }
     }
 }
