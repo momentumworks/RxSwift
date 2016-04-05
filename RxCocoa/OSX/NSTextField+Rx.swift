@@ -23,6 +23,7 @@ public class RxTextFieldDelegateProxy
     , DelegateProxyType {
 
     private let textSubject = PublishSubject<String>()
+    private let isEditing = PublishSubject<Bool>()
 
     /**
      Typed parent object.
@@ -40,6 +41,14 @@ public class RxTextFieldDelegateProxy
     }
 
     // MARK: Delegate methods
+
+    public override func controlTextDidBeginEditing(_: NSNotification) {
+        self.isEditing.onNext(true)
+    }
+
+    public override func controlTextDidEndEditing(_: NSNotification) {
+        self.isEditing.onNext(false)
+    }
 
     public override func controlTextDidChange(notification: NSNotification) {
         let textField = notification.object as! NSTextField
@@ -112,5 +121,22 @@ extension NSTextField {
 
         return ControlProperty(values: source, valueSink: observer.asObserver())
     }
-    
+
+    public var rx_textAfterEditing: Observable<String> {
+        let delegate = proxyForObject(RxTextFieldDelegateProxy.self, self)
+
+        return Observable.combineLatest(delegate.isEditing, delegate.textSubject) { isEditing, text -> String? in
+            if (isEditing) {
+                return nil
+            } else {
+                return text
+            }
+        }.flatMap { text -> Observable<String> in
+            guard let text = text else {
+                return Observable.empty()
+            }
+
+            return Observable.just(text)
+        }
+    }
 }
