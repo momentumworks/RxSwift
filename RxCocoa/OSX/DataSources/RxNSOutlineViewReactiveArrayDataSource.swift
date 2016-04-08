@@ -138,8 +138,8 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
         let indices = update(root, withChildren: observedElements, inOutline: outlineView).flatMap { $0 }
 
         for element in observedElements {
-            // Seriously... (O_O)
-            outlineView.reloadItem(element, reloadChildren: true)
+            // Seriously... (o_O)
+            outlineView.reloadItem(element)
         }
 
         if indices.count > 0 {
