@@ -43,7 +43,7 @@ class _RxNSOutlineViewReactiveArrayDataSource: NSObject, NSOutlineViewDataSource
 }
 
 class RxNSOutlineViewReactiveArrayDataSourceSequenceWrapper<S: SequenceType where S.Generator.Element : NSObject>
-        : RxNSOutlineViewReactiveArrayDataSource<S.Generator.Element>, RxNSOutlineViewDataSourceType {
+    : RxNSOutlineViewReactiveArrayDataSource<S.Generator.Element>, RxNSOutlineViewDataSourceType {
 
     typealias Element = S
 
@@ -63,11 +63,21 @@ class RxNSOutlineViewReactiveArrayDataSourceSequenceWrapper<S: SequenceType wher
     }
 }
 
+class Node<E> {
+    var value: E?
+    var children: [Node]
+
+    init(value: E? = nil) {
+        self.value = value
+        self.children = []
+    }
+}
+
 // Please take a look at `DelegateProxyType.swift`
 class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineViewReactiveArrayDataSource {
     typealias ChildrenFactory = (Element) -> [Element]
 
-    var itemModels: [Element]? = nil
+    var root: Node<Element> = Node()
 
     let childrenFactory: ChildrenFactory
 
@@ -77,7 +87,7 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
 
     override func _outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if (item == nil) {
-            return (itemModels?[index])!
+            return root.children[index].value!
         } else {
             return childrenFactory(item as! Element)[index]
         }
@@ -85,7 +95,7 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
 
     override func _outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if (item == nil) {
-            return itemModels?.count ?? 0
+            return root.children.count
         } else {
             return childrenFactory(item as! Element).count
         }
@@ -97,11 +107,45 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
 
     // reactive
 
-    func outlineView(outlineView: NSOutlineView, observedElements: [Element]) {
-        let oldElements = self.itemModels ?? []
+    private func replace(old: Element, with new: Element, inOutline outline: NSOutlineView) -> Int? {
+        outline.reloadItem(old) // by itself not enough - by design (!) http://stackoverflow.com/questions/19963031/nsoutlineview-reloaditem-has-no-effect
+        let index = outline.rowForItem(new)
+        return index >= 0 ? index : nil
+    }
 
-        if (oldElements != observedElements) {
-            self.itemModels = observedElements
+    private func update(node: Node<Element>, withValue value: Element, inOutline outline: NSOutlineView) -> [Int?] {
+        let old = node.value
+        node.value = value
+        let replacedIndex = replace(old!, with: value, inOutline: outline)
+        return [replacedIndex] + update(node, withChildren: childrenFactory(value), inOutline: outline)
+    }
+
+    private func update(node: Node<Element>, withChildren children: [Element], inOutline outline: NSOutlineView) -> [Int?] {
+        return children.enumerate().map { (index, childValue) -> [Int?] in
+            let childNode: Node<Element>
+            if index == node.children.count {
+                childNode = Node(value: childValue)
+                node.children.append(childNode)
+            } else {
+                childNode = node.children[index]
+            }
+
+            return update(childNode, withValue: childValue, inOutline: outline)
+        }.reduce([]){ $0 + $1 }
+    }
+
+    func outlineView(outlineView: NSOutlineView, observedElements: [Element]) {
+        let indices = update(root, withChildren: observedElements, inOutline: outlineView).flatMap { $0 }
+
+        for element in observedElements {
+            // Seriously... (O_O)
+            outlineView.reloadItem(element, reloadChildren: true)
+        }
+
+        if indices.count > 0 {
+            let range = NSRange(location: indices[0], length: indices[indices.count - 1] - indices[0] + 1)
+            outlineView.reloadDataForRowIndexes(NSIndexSet(indexesInRange: range), columnIndexes: NSIndexSet(index: 0))
+        } else {
             outlineView.reloadData()
         }
     }
