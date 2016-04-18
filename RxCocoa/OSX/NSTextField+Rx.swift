@@ -22,7 +22,12 @@ public class RxTextFieldDelegateProxy
     , NSTextFieldDelegate
     , DelegateProxyType {
 
-    private let textSubject = PublishSubject<String>()
+    private let doubleSubject     = PublishSubject<Double>()
+    private let floatSubject      = PublishSubject<Float>()
+    private let intSubject        = PublishSubject<Int>()
+    private let textSubject       = PublishSubject<String>()
+    private let attributedSubject = PublishSubject<NSAttributedString>()
+
     private let isEditing = PublishSubject<Bool>()
 
     /**
@@ -52,8 +57,11 @@ public class RxTextFieldDelegateProxy
 
     public override func controlTextDidChange(notification: NSNotification) {
         let textField = notification.object as! NSTextField
-        let nextValue = textField.stringValue
-        self.textSubject.on(.Next(nextValue))
+        self.doubleSubject.on(.Next(textField.doubleValue))
+        self.floatSubject.on(.Next(textField.floatValue))
+        self.intSubject.on(.Next(textField.integerValue))
+        self.textSubject.on(.Next(textField.stringValue))
+        self.attributedSubject.on(.Next(textField.attributedStringValue))
     }
 
     // MARK: Delegate proxy methods
@@ -104,22 +112,93 @@ extension NSTextField {
     public var rx_delegate: DelegateProxy {
         return proxyForObject(RxTextFieldDelegateProxy.self, self)
     }
-    
+
+    private func createControlProperty<T>(source sourceFn: (RxTextFieldDelegateProxy, NSControl) -> Observable<T>, sink sinkFn: (NSControl, T) -> ()) -> ControlProperty<T> {
+        let delegate = proxyForObject(RxTextFieldDelegateProxy.self, self)
+
+        let source = Observable.deferred { [weak self] () -> Observable<T> in
+            guard let strongSelf = self else {
+                return Observable.empty()
+            }
+
+            return sourceFn(delegate, strongSelf)
+        }.takeUntil(rx_deallocated)
+
+        let observer = UIBindingObserver(UIElement: self) { control, value in
+            sinkFn(control, value)
+        }
+
+        return ControlProperty(values: source, valueSink: observer.asObserver())
+    }
+
+    /**
+    Reactive wrapper for `Double` property.
+    */
+    public var rx_double: ControlProperty<Double> {
+        let sourceFn = { (delegate: RxTextFieldDelegateProxy, textField: NSControl) -> Observable<Double> in
+            delegate.doubleSubject.startWith(textField.doubleValue)
+        }
+
+        let sinkFn = { (control: NSControl, value: Double) in
+            control.doubleValue = value
+        }
+        return createControlProperty(source: sourceFn, sink: sinkFn)
+    }
+
+    /**
+    Reactive wrapper for `Float` property.
+    */
+    public var rx_float: ControlProperty<Float> {
+        let sourceFn = { (delegate: RxTextFieldDelegateProxy, textField: NSControl) -> Observable<Float> in
+            delegate.floatSubject.startWith(textField.floatValue)
+        }
+
+        let sinkFn = { (control: NSControl, value: Float) in
+            control.floatValue = value
+        }
+        return createControlProperty(source: sourceFn, sink: sinkFn)
+    }
+
+    /**
+    Reactive wrapper for `Int` property.
+    */
+    public var rx_int: ControlProperty<Int> {
+        let sourceFn = { (delegate: RxTextFieldDelegateProxy, textField: NSControl) -> Observable<Int> in
+            delegate.intSubject.startWith(textField.integerValue)
+        }
+
+        let sinkFn = { (control: NSControl, value: Int) in
+            control.integerValue = value
+        }
+        return createControlProperty(source: sourceFn, sink: sinkFn)
+    }
+
     /**
     Reactive wrapper for `text` property.
     */
     public var rx_text: ControlProperty<String> {
-        let delegate = proxyForObject(RxTextFieldDelegateProxy.self, self)
-        
-        let source = Observable.deferred { [weak self] in
-            delegate.textSubject.startWith(self?.stringValue ?? "")
-        }.takeUntil(rx_deallocated)
-
-        let observer = UIBindingObserver(UIElement: self) { control, value in
-            control.stringValue = value
+        let sourceFn = { (delegate: RxTextFieldDelegateProxy, textField: NSControl) -> Observable<String> in
+            delegate.textSubject.startWith(textField.stringValue)
         }
 
-        return ControlProperty(values: source, valueSink: observer.asObserver())
+        let sinkFn = { (control: NSControl, value: String) in
+            control.stringValue = value
+        }
+        return createControlProperty(source: sourceFn, sink: sinkFn)
+    }
+
+    /**
+    Reactive wrapper for `AttributedString` property.
+    */
+    public var rx_attributedString: ControlProperty<NSAttributedString> {
+        let sourceFn = { (delegate: RxTextFieldDelegateProxy, textField: NSControl) -> Observable<NSAttributedString> in
+            delegate.attributedSubject.startWith(textField.attributedStringValue)
+        }
+
+        let sinkFn = { (control: NSControl, value: NSAttributedString) in
+            control.attributedStringValue = value
+        }
+        return createControlProperty(source: sourceFn, sink: sinkFn)
     }
 
     public var rx_textAfterEditing: Observable<String> {
