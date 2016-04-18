@@ -107,16 +107,12 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
 
     // reactive
 
-    private func replace(old: Element, with new: Element, inOutline outline: NSOutlineView) -> Int? {
-        outline.reloadItem(old) // by itself not enough - by design (!) http://stackoverflow.com/questions/19963031/nsoutlineview-reloaditem-has-no-effect
-        let index = outline.rowForItem(new)
-        return index >= 0 ? index : nil
-    }
-
     private func update(node: Node<Element>, withValue value: Element, inOutline outline: NSOutlineView) -> [Int?] {
         let old = node.value
         node.value = value
-        let replacedIndex = replace(old!, with: value, inOutline: outline)
+        outline.reloadItem(old) // by itself not enough - by design (!) http://stackoverflow.com/questions/19963031/nsoutlineview-reloaditem-has-no-effect
+        let index = outline.rowForItem(value)
+        let replacedIndex: Int? = index >= 0 ? index : nil
         return [replacedIndex] + update(node, withChildren: childrenFactory(value), inOutline: outline)
     }
 
@@ -126,6 +122,7 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
             if index == node.children.count {
                 childNode = Node(value: childValue)
                 node.children.append(childNode)
+                outline.insertItemsAtIndexes(NSIndexSet(index: index), inParent: node.value, withAnimation: NSTableViewAnimationOptions.EffectFade)
             } else {
                 childNode = node.children[index]
             }
@@ -135,11 +132,11 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
     }
 
     func outlineView(outlineView: NSOutlineView, observedElements: [Element]) {
+        outlineView.beginUpdates()
         let indices = update(root, withChildren: observedElements, inOutline: outlineView).flatMap { $0 }
 
         for element in observedElements {
-            // Seriously... (O_O)
-            outlineView.reloadItem(element, reloadChildren: true)
+            outlineView.reloadItem(element)
         }
 
         if indices.count > 0 {
@@ -148,5 +145,6 @@ class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineVi
         } else {
             outlineView.reloadData()
         }
+        outlineView.endUpdates()
     }
 }
