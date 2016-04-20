@@ -12,16 +12,16 @@ import RxSwift
 import Cocoa
 
 // objc monkey business
-class _RxNSOutlineViewReactiveArrayDataSource: NSObject, NSOutlineViewDataSource {
+public class _RxNSOutlineViewReactiveArrayDataSource: NSObject, NSOutlineViewDataSource {
     func _outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         rxAbstractMethod()
     }
 
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    public func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         return _outlineView(outlineView, child: index, ofItem: item)
     }
 
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+    public func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
         return self.outlineView(outlineView, numberOfChildrenOfItem: item) > 0
     }
 
@@ -29,7 +29,7 @@ class _RxNSOutlineViewReactiveArrayDataSource: NSObject, NSOutlineViewDataSource
         return 0
     }
 
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    public func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         return _outlineView(outlineView, numberOfChildrenOfItem: item)
     }
 
@@ -37,21 +37,21 @@ class _RxNSOutlineViewReactiveArrayDataSource: NSObject, NSOutlineViewDataSource
         return nil
     }
 
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    public func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
         return _outlineView(outlineView, objectValueForTableColumn: tableColumn, byItem: item)
     }
 }
 
-class RxNSOutlineViewReactiveArrayDataSourceSequenceWrapper<S: SequenceType where S.Generator.Element : NSObject>
+public class RxNSOutlineViewReactiveArrayDataSourceSequenceWrapper<S: SequenceType where S.Generator.Element : NSObject>
     : RxNSOutlineViewReactiveArrayDataSource<S.Generator.Element>, RxNSOutlineViewDataSourceType {
 
-    typealias Element = S
+    public typealias Element = S
 
-    override init(childrenFactory: ChildrenFactory) {
+    public override init(childrenFactory: ChildrenFactory) {
         super.init(childrenFactory: childrenFactory)
     }
 
-    func outlineView(outlineView: NSOutlineView, observedEvent: Event<S>) {
+    public func outlineView(outlineView: NSOutlineView, observedEvent: Event<S>) {
         switch observedEvent {
         case .Next(let value):
             super.outlineView(outlineView, observedElements: Array(value))
@@ -74,14 +74,14 @@ class Node<E> {
 }
 
 // Please take a look at `DelegateProxyType.swift`
-class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineViewReactiveArrayDataSource {
-    typealias ChildrenFactory = (Element) -> [Element]
+public class RxNSOutlineViewReactiveArrayDataSource<Element: NSObject> : _RxNSOutlineViewReactiveArrayDataSource {
+    public typealias ChildrenFactory = (Element) -> [Element]
 
     var root: Node<Element> = Node()
 
     let childrenFactory: ChildrenFactory
 
-    init(childrenFactory: ChildrenFactory) {
+    public init(childrenFactory: ChildrenFactory) {
         self.childrenFactory = childrenFactory
     }
 
