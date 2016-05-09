@@ -50,7 +50,7 @@ extension NSControl {
      Can somebody offer poor Swift compiler writers some other better job maybe, this is becoming
      ridiculous. So much time wasted ...
     */
-    static func rx_value<C: AnyObject, T: Equatable>(control: C, getter: (C) -> T, setter: (C, T) -> Void) -> ControlProperty<T> {
+    public static func rx_value<C: AnyObject, T: Equatable>(control: C, getter: (C) -> T, setter: (C, T) -> Void) -> ControlProperty<T> {
         MainScheduler.ensureExecutingOnScheduler()
 
         let source = (control as! NSObject).rx_lazyInstanceObservable(&rx_value_key) { () -> Observable<T> in
